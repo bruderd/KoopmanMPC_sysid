@@ -20,8 +20,9 @@ verData.K = [];
 params = model.params;    % model parameters
 
 % get handle for the lifting function
+modelName = modelFile(1:end-4); % remove the .mat file extension
 cd( 'liftingFunctions' );
-stateLift = str2func( [ 'lift_' , model.params.systemName ] );
+stateLift = str2func( [ 'lift_' , modelName ] );
 cd( '..' );
 
 % scale things down appropriately

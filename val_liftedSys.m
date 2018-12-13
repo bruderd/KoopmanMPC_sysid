@@ -61,14 +61,10 @@ for j = 1 : params.numVals
     
     %% quantify the error between real behavior and simulated behavior
     
-%     % quantify error
-%     terror = treal;
-%     xerror = abs( xreal - xsysid );
-% %     xerror = abs( xreal - xkoop );
-%     xerrormax = max(max(xerror(:,1:ceil(params.n/2))));
-%     % xerrormin = min(min(xerror(:,1:ceil(params.n/2))));
-%     RMSE = sqrt( sum( (xreal - xsysid).^2 ) / length(terror) );
-    error = 0;
+    % quantify error
+    terror = treal;
+    error.RMSE.(valID) = sqrt( sum( (xreal - xdis).^2 ) / length(terror) );     % error for this trial
+    error.RMSE.total = error.RMSE.total + error.RMSE.(valID);   % keep track of total error
     
     %% define outputs
 %     error.(valID).terror = terror;
