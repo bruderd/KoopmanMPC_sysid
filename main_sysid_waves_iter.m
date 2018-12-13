@@ -21,7 +21,7 @@ addpath('/home/bruderd/gurobi/gurobi810/linux64/matlab');
 if ~exist('params' ,'var')  % recycle struct from previous run 
     params = struct;
 end
-params.getData = 'ISR3_larm_sc09_155000pts_1delays_poly3_Ts1.mat';            % (name of the data file)
+params.getData = 'larm_sc09_155000pts_1del_Ts1.mat';            % (name of the data file)
 params.basisID = 'poly';   % ('fourier' or 'poly' or 'fourier_sparser' or 'thinplate' or 'gaussian')
 
 % parameters for reading in data (these affect how shapshot pairs built from raw data).
