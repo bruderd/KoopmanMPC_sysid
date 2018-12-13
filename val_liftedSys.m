@@ -6,6 +6,8 @@ function [error, koopsim] = val_liftedSys( data, lifted )
 params = data.valparams;    % model parameters
 
 error = struct;     % error results comparing real and koopman system
+error.RMSE.total = 0; % initialize total error quantity
+
 koopsim = struct;   % simulation results for koopman system
 
 for j = 1 : params.numVals
