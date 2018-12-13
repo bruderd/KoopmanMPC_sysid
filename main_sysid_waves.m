@@ -14,6 +14,7 @@
 %       operator and other values related to the koopman sysid. See the
 %       koopmanSysid function for more details.
 
+addpath('/home/bruderd/gurobi/gurobi810/linux64/matlab');
 
 %% Define system parameters (USER EDIT SECTION)
 
@@ -65,7 +66,7 @@ end
 
 
 % Koopman sysid tuning parameters
-params.t        = 100 * params.N; % penalty on model complexity
+params.t        = 10 * params.N; % penalty on model complexity
 params.epsilon  = 1; % model accuracy tolerance (larger value = less accurate)
 params.percSat  = 0.75;  % percentage of snapshot pairs that must satisfy accuracy tolerance
 
@@ -117,7 +118,7 @@ lifted          = sysid_liftedSys( U , params , koopData );
 
 % save the dynamics
 [unique_fname] = save_model(lifted);
-unique_name = unique_fname( 1 : end - 4 );  % remove the file extension '.mat'
+unique_name = unique_fname( 8 : end - 4 );  % remove 'models/' from the beginning and the file extension '.mat'
 
 % save the lifting function
 liftFunDest = ['liftingFunctions' , filesep , 'lift_' , unique_name, '.m'];
