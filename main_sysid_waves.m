@@ -33,7 +33,7 @@ params.numericalDerivs  = false;    % choose whether or not to take numerical de
 params.scale            = 0.9;      % scale down all state to be in range [-scale , scale]
 params.nd               = 1;        % number of delays to include in the snapshot pairs
 
-params.systemName          = 'ISR3_larm_sc09_155000pts_1delays_poly3_Ts1';  % name of current system
+params.systemName          = 'ISR3_larm_sc09_155000pts_1delays_poly4_Ts1';  % name of current system
 params.filterWindow        = floor( [1/params.Ts, 1/params.Ts] );  % if taking numerical derivatives, specifies the moving mean window before and after derivatives taken.
 
 % Koopman Sysid parameters
@@ -44,7 +44,7 @@ params.naug = params.n + params.p; % dimension of augmented state (DNE)
 params.nzeta = params.n + params.nd * (params.naug);    % dimensinon of zeta (DNE)
 
 % select maximum "degree" for basis elements
-params.maxDegree = 3;   % maximum degree of vector field monomial basis
+params.maxDegree = 4;   % maximum degree of vector field monomial basis
 
 % only do this if the Basis is not already defined. Will need to clear before running with a different basis or maxDegree
 if ~isfield(params , 'Basis')   
