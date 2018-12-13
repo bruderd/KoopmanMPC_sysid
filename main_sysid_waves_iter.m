@@ -33,7 +33,7 @@ params.numericalDerivs  = false;    % choose whether or not to take numerical de
 params.scale            = 0.9;      % scale down all state to be in range [-scale , scale]
 params.nd               = 1;        % number of delays to include in the snapshot pairs
 
-params.systemName          = 'ISR3_larm_sc09_155000pts_1delays_poly4_Ts1';  % name of current system
+params.systemName          = 'waves_larm_sc09_155000pts_1del_Ts1_poly4';  % name of current system
 params.filterWindow        = floor( [1/params.Ts, 1/params.Ts] );  % if taking numerical derivatives, specifies the moving mean window before and after derivatives taken.
 
 % Koopman Sysid parameters
