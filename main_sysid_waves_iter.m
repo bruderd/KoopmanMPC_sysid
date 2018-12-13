@@ -1,4 +1,4 @@
-function [lifted , error] = main_sysid_waves_iter(lassoParams)
+function [lifted , error] = main_sysid_waves_iter( basisID , maxDegree , lassoParams )
 %main_sysid
 %main_sysid: A generic "main" function for learning model from data
 %   Performs linear system identification of nonlinear systems using a
@@ -6,6 +6,8 @@ function [lifted , error] = main_sysid_waves_iter(lassoParams)
 %   monomial basis.
 %
 %   INPUTS:
+%       basisID - string that spedifies type of basis ('fourier' or 'poly' or 'fourier_sparser' or 'thinplate' or 'gaussian')
+%       maxDegree - maximum "degree" of the basis elements
 %       lassoParams - a vector containing all the differenta values for the
 %           lasso optimizaton parameters that should be tried.
 %
@@ -21,19 +23,19 @@ addpath('/home/bruderd/gurobi/gurobi810/linux64/matlab');
 if ~exist('params' ,'var')  % recycle struct from previous run 
     params = struct;
 end
-params.getData = 'larm_sc09_155000pts_1del_Ts1.mat';            % (name of the data file)
-params.basisID = 'poly';   % ('fourier' or 'poly' or 'fourier_sparser' or 'thinplate' or 'gaussian')
+params.getData = 'larm_130val_sc09_155000pts_1del_Ts1.mat';            % (name of the data file)
+params.basisID = basisID;   % ('fourier' or 'poly' or 'fourier_sparser' or 'thinplate' or 'gaussian')
 
 % parameters for reading in data (these affect how shapshot pairs built from raw data).
 params.numTrials        = 13;        % numer of sysid trials
-params.numVals          = 9;        % number of validation trials
+params.numVals          = 20;        % number of validation trials
 params.Ts               = 0.1;     % sampling period
 params.K                = 155000;     % numer of snapshotPairs to take
 params.numericalDerivs  = false;    % choose whether or not to take numerical derivatives of states (boolean)
 params.scale            = 0.9;      % scale down all state to be in range [-scale , scale]
 params.nd               = 1;        % number of delays to include in the snapshot pairs
 
-params.systemName          = 'waves_larm_sc09_155000pts_1del_Ts1_poly4';  % name of current system
+params.systemName          = ['waves_130val_larm_sc09_155000pts_1del_Ts1_' , basisID , num2str(maxDegree) ];  % name of current system
 params.filterWindow        = floor( [1/params.Ts, 1/params.Ts] );  % if taking numerical derivatives, specifies the moving mean window before and after derivatives taken.
 
 % Koopman Sysid parameters
@@ -44,7 +46,7 @@ params.naug = params.n + params.p; % dimension of augmented state (DNE)
 params.nzeta = params.n + params.nd * (params.naug);    % dimensinon of zeta (DNE)
 
 % select maximum "degree" for basis elements
-params.maxDegree = 4;   % maximum degree of vector field monomial basis
+params.maxDegree = maxDegree;   % maximum degree of vector field monomial basis
 
 % only do this if the Basis is not already defined. Will need to clear before running with a different basis or maxDegree
 if ~isfield(params , 'Basis')   
@@ -71,7 +73,7 @@ params.epsilon  = 1; % model accuracy tolerance (larger value = less accurate)
 params.percSat  = 0.75;  % percentage of snapshot pairs that must satisfy accuracy tolerance
 
 % output parameters
-params.validateon          = false;  % boolean to decide whether to validate the model
+params.validateon          = true;  % boolean to decide whether to validate the model
 params.ploton              = false;  % boolean to turn validation/error/compare plot on or off
 params.compareon           = false;  % boolean to decide whether to convert to iddata and compare to validation data with Matlab compare function
 
