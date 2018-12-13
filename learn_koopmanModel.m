@@ -7,11 +7,11 @@ function [ model , error ] = learn_koopmanModel( snapshotPairs , params )
 model          = sysid_liftedSys( U , params , koopData );
 
 %% Simulate the results and compare to validation trial(s)
-if params.validateon
+% if params.validateon
     disp('Comparing to validation data set...');
     [error, koopsim] = val_liftedSys(data, model);
     disp('Done.')
-end
+% end
 
 
 end
