@@ -100,7 +100,7 @@ error.RMSE.total = Inf;   % initialize the total error variable
 
 for i = 1 : length(lassoParams)
     params.t = lassoParams(i) * params.N;
-    [model , current_error] = learn_koopmanModel( some_snapshotPairs , params );   % learn new model
+    [model , current_error] = learn_koopmanModel( data, some_snapshotPairs , params );   % learn new model
     
     % keep this model only if the errro is lower than the last one
     if current_error.RMSE.total < error.RMSE.total

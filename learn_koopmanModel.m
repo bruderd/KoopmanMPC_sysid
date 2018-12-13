@@ -1,4 +1,4 @@
-function [ model , error ] = learn_koopmanModel( snapshotPairs , params )
+function [ model , error ] = learn_koopmanModel( data, snapshotPairs , params )
 %learn_koopmanModel: learns a koopman model and quantifies the error of
 %that model over all validation trials
 %   Detailed explanation goes here
