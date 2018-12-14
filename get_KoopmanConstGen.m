@@ -5,7 +5,7 @@ function [ U , koopData ] = get_KoopmanConstGen( snapshotPairs , params )
 
 disp('Finding Koopman operator approximation...');
 
-stateLift = str2fun( params.liftHandle );   % identify handle of the lifting function
+stateLift = str2func( params.liftHandle );   % identify handle of the lifting function
 
 %% Extract snapshot pairs
 
