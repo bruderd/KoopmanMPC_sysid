@@ -31,13 +31,13 @@ end
 psi = exponents';
 
 % create the lifting function: x -> p(x)
-liftfunName = [ 'stateLift_' , params.basisID , num2string(params.maxDegree) ];
+liftfunName = [ 'stateLift_' , params.basisID , num2str(params.maxDegree) ];
 matlabFunction(polyBasis, 'File', liftfunName, 'Vars', {zeta});
 
 %% define derivative of lifted state with respect to x
 
 dlift = jacobian(polyBasis,x);
-jacfunName = [ 'jacobianLift_' , params.basisID , num2string(params.maxDegree) ];
+jacfunName = [ 'jacobianLift_' , params.basisID , num2str(params.maxDegree) ];
 matlabFunction(dlift, 'File', jacfunName, 'Vars', {zeta});
 
 %% output variables  
