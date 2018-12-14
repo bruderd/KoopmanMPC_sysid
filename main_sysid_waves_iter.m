@@ -23,7 +23,7 @@ addpath('/home/bruderd/gurobi/gurobi810/linux64/matlab');
 if ~exist('params' ,'var')  % recycle struct from previous run 
     params = struct;
 end
-params.getData = 'larm_130val_sc09_155000pts_1del_Ts1.mat';            % (name of the data file)
+params.getData = 'larm_156val_sc09_155000pts_1del_Ts1.mat';            % (name of the data file)
 params.basisID = basisID;   % ('fourier' or 'poly' or 'fourier_sparser' or 'thinplate' or 'gaussian')
 
 % parameters for reading in data (these affect how shapshot pairs built from raw data).
@@ -35,7 +35,7 @@ params.numericalDerivs  = false;    % choose whether or not to take numerical de
 params.scale            = 0.9;      % scale down all state to be in range [-scale , scale]
 params.nd               = 1;        % number of delays to include in the snapshot pairs
 
-params.systemName          = ['waves_130val_larm_sc09_155000pts_1del_Ts1_' , basisID , num2str(maxDegree) ];  % name of current system
+params.systemName          = ['waves_156val_larm_sc09_155000pts_1del_Ts1_' , basisID , num2str(maxDegree) ];  % name of current system
 params.filterWindow        = floor( [1/params.Ts, 1/params.Ts] );  % if taking numerical derivatives, specifies the moving mean window before and after derivatives taken.
 
 % Koopman Sysid parameters
