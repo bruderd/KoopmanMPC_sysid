@@ -3,6 +3,8 @@ function [error, koopsim] = val_liftedSys( data, lifted )
 %validation trials
 %   Detailed explanation goes here
 
+stateLift = str2func( lifted.params.liftHandle );   % identify handle of the lifting function
+
 params = data.valparams;    % model parameters
 
 error = struct;     % error results comparing real and koopman system
