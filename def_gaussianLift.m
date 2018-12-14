@@ -28,12 +28,14 @@ end
 Basis = [zeta ; psi];
 
 % create the lifting function: x -> p(x)
-matlabFunction(Basis, 'File', 'stateLift', 'Vars', {zeta});
+liftfunName = [ 'stateLift_' , params.basisID , num2string(params.maxDegree) ];
+matlabFunction(Basis, 'File', liftfunName, 'Vars', {zeta});
 
 %% define derivative of lifted state with respect to x
 
 dlift = jacobian(Basis,x);
-matlabFunction(dlift, 'File', 'jacobianLift', 'Vars', {zeta});
+jacfunName = [ 'jacobianLift_' , params.basisID , num2string(params.maxDegree) ];
+matlabFunction(dlift, 'File', jacfunName, 'Vars', {zeta});
 
 %% output variables  
 params.Basis = Basis;    % symbolic vector of basis functions, p(x)
@@ -44,5 +46,6 @@ params.x = x;   % symbolic state variable
 params.u = u;   % symbolic input variable
 params.xd = xd; % symbolic state delays
 params.ud = ud; % symbolic input delays
+params.liftHandle = liftFunName;    % name of the lifting function
 
 end

@@ -5,7 +5,7 @@ function [unique_fname] = save_model( system )
 systemName = system.params.systemName;
 
 %% save datafile without overwriting previous files with same name
-[unique_fname, change_detect] = auto_rename(['models', filesep, systemName, '.mat'], '-0');
+[unique_fname, change_detect] = auto_rename(['models', filesep, systemName, '.mat'], '_0');
 save(unique_fname, '-struct', 'system');
 
 end
