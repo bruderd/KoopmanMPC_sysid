@@ -29,13 +29,13 @@ end
 fourierBasis = [zeta ; fourierBasis];
 
 % create the lifting function: x -> p(x)
-liftfunName = [ 'stateLift_' , params.basisID , num2string(params.maxDegree) ];
+liftfunName = [ 'stateLift_' , params.basisID , num2str(params.maxDegree) ];
 matlabFunction(fourierBasis, 'File', liftfunName, 'Vars', {zeta});
 
 %% define derivative of lifted state with respect to x
 
 dlift = jacobian(fourierBasis,x);
-jacfunName = [ 'jacobianLift_' , params.basisID , num2string(params.maxDegree) ];
+jacfunName = [ 'jacobianLift_' , params.basisID , num2str(params.maxDegree) ];
 matlabFunction(dlift, 'File', jacfunName, 'Vars', {zeta});
 
 %% output variables  
