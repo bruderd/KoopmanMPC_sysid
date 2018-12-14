@@ -104,8 +104,8 @@ for i = 1 : length(lassoParams)
     params.t = lassoParams(i) * params.N;
     [model , current_error] = learn_koopmanModel( data, some_snapshotPairs , params );   % learn new model
     
-    % keep this model only if the errro is lower than the last one
-    if current_error.RMSE.total < error.RMSE.total
+    % keep this model only if the error is lower than the last one
+    if norm( current_error.RMSE.total ) < norm( error.RMSE.total )  % want average of x and y error to be better
         lifted = model;
         error = current_error;
     end
@@ -119,7 +119,7 @@ end
 %     disp('Done.')
 % end
 
-%% Save the model file if the user agrees
+%% Save the model file
 
 % save the dynamics
 [unique_fname] = save_model(lifted);
@@ -127,5 +127,5 @@ unique_name = unique_fname( 8 : end - 4 );  % remove 'models/' from the beginnin
 
 % save the lifting function
 liftFunDest = ['liftingFunctions' , filesep , 'lift_' , unique_name, '.m'];
-copyfile('stateLift.m' , liftFunDest);
+copyfile( [params.liftHandle , '.m'] , liftFunDest );
 
