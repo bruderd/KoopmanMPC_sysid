@@ -28,7 +28,7 @@ params.basisID = basisID;   % ('fourier' or 'poly' or 'fourier_sparser' or 'thin
 
 % parameters for reading in data (these affect how shapshot pairs built from raw data).
 params.numTrials        = 13;        % numer of sysid trials
-params.numVals          = 20;        % number of validation trials
+params.numVals          = 130;        % number of validation trials
 params.Ts               = 0.1;     % sampling period
 params.K                = 155000;     % numer of snapshotPairs to take
 params.numericalDerivs  = false;    % choose whether or not to take numerical derivatives of states (boolean)
@@ -101,6 +101,8 @@ error = struct;
 error.RMSE.total = Inf;   % initialize the total error variable
 
 for i = 1 : length(lassoParams)
+    disp(['Learning model number ' , num2str(i) , ' of ' , num2str(length(lassoParams)) , '.' ] );
+    
     params.t = lassoParams(i) * params.N;
     [model , current_error] = learn_koopmanModel( data, some_snapshotPairs , params );   % learn new model
     

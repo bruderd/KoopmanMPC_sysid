@@ -8,6 +8,7 @@ function verData = verify_model( tobs, xobs , uobs )
 [modelFile, modelPath] = uigetfile('models');    % load model parameters
 model = load([modelPath , filesep , modelFile]);    % load model file
 
+stateLift = str2func( model.params.liftHandle );    % identify the lifting function corresponding to the model
 Ts = model.params.Ts;    % sampling time of model
 
 % initialize mpc data struct
