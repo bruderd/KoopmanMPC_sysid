@@ -47,6 +47,6 @@ params.x = x;   % symbolic state variable
 params.u = u;   % symbolic input variable
 params.xd = xd; % symbolic state delays
 params.ud = ud; % symbolic input delays
-params.liftHandle = liftFunName;    % name of the lifting function
+params.liftHandle = liftfunName;    % name of the lifting function
 
 end
