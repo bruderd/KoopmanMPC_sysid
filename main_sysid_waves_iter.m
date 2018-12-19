@@ -110,6 +110,7 @@ for i = 1 : length(lassoParams)
     if norm( current_error.RMSE.total ) < norm( error.RMSE.total )  % want average of x and y error to be better
         lifted = model;
         error = current_error;
+        lifted.error = error;   % save the error information as part of the model
     end
 end
 
