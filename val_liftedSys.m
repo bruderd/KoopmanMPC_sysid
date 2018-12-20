@@ -43,25 +43,39 @@ for j = 1 : params.numVals
     ud0 = reshape( flipud( valdata.u(1 : params.nd , :) )' , [params.p * params.nd , 1] );
     zeta0 = [x0; xd0; ud0];
     
-    % simulate lifted linear model
+    % simulate lifted linear model using ode45
 %     [xss,tlifted,xlifted] = lsim(lifted.sys, valdata.u(index0 : end , :) , valdata.t(index0 : end , :) , stateLift(zeta0));
     
-    %% simulate the behavior of the discrete linear system
+    % simulate the behavior of the discrete linear system (flow initial state forward, which is how MPC does it)
     xdis = zeros(length(tspan) , params.n);
     xdis(1,:) = valdata.x(index0 , :);
+    psi0 = stateLift(zeta0);
     for i = 1 : length(tspan)-1
         if i == 1
-            zetak = zeta0;
+            psik = psi0;
         else
-            xk = xdis(i , :)';
-            xdk = reshape( flipud( xdis( (i-params.nd) : i-1 , : ) )' , [params.n * params.nd , 1] );
-            udk = reshape( flipud( valdata.u(i-params.nd : i-1 , :) )' , [params.p * params.nd , 1] );
-            zetak = [xk; xdk; udk];
+            psik = psikp1;
         end
-        psik = stateLift(zetak);
-        psikp1 = lifted.Asim * psik + lifted.Bsim * valdata.u(i,:)';
+        psikp1 = lifted.A * psik + lifted.B * valdata.u(i,:)';
         xdis(i+1,:) = ( lifted.C * psikp1 )';
     end
+
+%     % simulate the behavior of the discrete linear system (lift and drop at each step)
+%     xdis = zeros(length(tspan) , params.n);
+%     xdis(1,:) = valdata.x(index0 , :);
+%     for i = 1 : length(tspan)-1
+%         if i == 1
+%             zetak = zeta0;
+%         else
+%             xk = xdis(i , :)';
+%             xdk = reshape( flipud( xdis( (i-params.nd) : i-1 , : ) )' , [params.n * params.nd , 1] );
+%             udk = reshape( flipud( valdata.u(i-params.nd : i-1 , :) )' , [params.p * params.nd , 1] );
+%             zetak = [xk; xdk; udk];
+%         end
+%         psik = stateLift(zetak);
+%         psikp1 = lifted.Asim * psik + lifted.Bsim * valdata.u(i,:)';
+%         xdis(i+1,:) = ( lifted.C * psikp1 )';
+%     end
     
     %% quantify the error between real behavior and simulated behavior
     
