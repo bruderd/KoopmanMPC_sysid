@@ -40,7 +40,7 @@ params.filterWindow        = floor( [1/params.Ts, 1/params.Ts] );  % if taking n
 
 % Koopman Sysid parameters
 params.n = 2;   % dimension of state space (including state derivatives)
-params.p = 3;   % dimension of input
+params.p = 2;   % dimension of input
 params.ny = 2;  % dimension of output
 params.naug = params.n + params.p; % dimension of augmented state (DNE)
 params.nzeta = params.n + params.nd * (params.naug);    % dimensinon of zeta (DNE)
