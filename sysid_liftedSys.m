@@ -38,6 +38,7 @@ out.Cz = Cz;
 out.M = M;
 out.sys = ss(A,B,C,0, params.Ts);  % discrete state space system object
 out.params = params;    % save system parameters as part of system struct
+out.U = U;  % save the koopman operator
 
 end
 

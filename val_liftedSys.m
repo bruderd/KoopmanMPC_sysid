@@ -9,6 +9,7 @@ params = data.valparams;    % model parameters
 
 error = struct;     % error results comparing real and koopman system
 error.RMSE.total = 0; % initialize total error quantity
+error.zero.total = 0;
 
 koopsim = struct;   % simulation results for koopman system
 
@@ -83,6 +84,10 @@ for j = 1 : params.numVals
     terror = treal;
     error.RMSE.(valID) = sqrt( sum( (xreal - xdis).^2 ) / length(terror) );     % error for this trial
     error.RMSE.total = error.RMSE.total + error.RMSE.(valID);   % keep track of total error
+    
+    % compute error of the zero solution (if state remains zero whole time). This will be used for normalization purposes 
+    error.zero.(valID) = sqrt( sum( (xreal).^2 ) / length(terror) );
+    error.zero.total = error.zero.total + error.zero.(valID);   % keep track of total
     
     %% define outputs
 %     error.(valID).terror = terror;
