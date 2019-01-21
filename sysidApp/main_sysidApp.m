@@ -31,31 +31,31 @@ Ts = model.params.Ts;
 m = idnlgrey( 'vf_poly' , Order , Parameters , InitialStates , Ts , 'Name' , 'laser_polyModel');
 
 
-%% merge 10 of the validation trials (20s of data to learn from total)
-% 
-% % initialize merged dataset
-% ztry = zval.z1;
-% for i = 2 : 10
-%    expID = ['z', num2str(i)];
-%    
-%    % merge all of the data sets into single multiexperiment object
-%    ztry = merge( ztry, zval.(expID) );
-% end
+%% merge 100 of the validation trials (200s of data to learn from total)
+
+% initialize merged dataset
+ztry = zval.z1(1:19);   % just the first 19 samples
+for i = 2 : 100
+   expID = ['z', num2str(i)];
+   
+   % merge all of the data sets into single multiexperiment object
+   ztry = merge( ztry, zval.(expID)(1:19) );    % just the first 19 samples
+end
 
 %% learn model
 opt = nlgreyestOptions;
-opt.Display = 'off';
+opt.Display = 'on';
 % opt.SearchMethod  = 'fmincon';
-nlmodel = nlgreyest( zsysid_merged , m , opt );
+nlmodel = nlgreyest( ztry , m , opt );
 
 %% Check model accuracy
-
-% estimate initial condition, don't just set to zero
-compopt = compareOptions('InitialCondition','e'); 
-for i = 1:4
-nlmodel.InitialStates(i).Fixed = false;
-end
-[y,fit,x0] = compare( zval_merged , nlmodel , compopt );
+% 
+% % estimate initial condition, don't just set to zero
+% compopt = compareOptions('InitialCondition','e'); 
+% for i = 1:4
+% nlmodel.InitialStates(i).Fixed = false;
+% end
+% [y,fit,x0] = compare( zval_merged , nlmodel , compopt );
 
 %% Save NLGREY model
 save( ['nlModels' , filesep , 'laserModel_poly2_allsyids.mat'] , 'nlmodel' );
