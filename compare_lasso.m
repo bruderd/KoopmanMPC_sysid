@@ -18,7 +18,7 @@ function results = compare_lasso( basisID , maxDegree , lassoParams )
 %       error - a struct containing the error info for all of the
 %       validation trials
 
-% addpath('/home/bruderd/gurobi/gurobi810/linux64/matlab');
+addpath('/home/bruderd/gurobi/gurobi810/linux64/matlab');
 
 %% Define system parameters (USER EDIT SECTION)
 
