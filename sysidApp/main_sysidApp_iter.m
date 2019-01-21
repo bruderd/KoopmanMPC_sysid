@@ -69,15 +69,15 @@ for i = 2 : floor( numvals / 10 )   % take them 10 at a time
 end
     
 
-%% Check model accuracy
-
-% estimate initial condition, don't just set to zero
-compopt = compareOptions('InitialCondition','e'); 
-for i = 1:4
-m2.InitialStates(i).Fixed = false;
-end
-
-[y,fit,x0] = compare( zval_merged , nlmodel , compopt );
+%% Check model accuracy (silenced for now)
+% 
+% % estimate initial condition, don't just set to zero
+% compopt = compareOptions('InitialCondition','e'); 
+% for i = 1:4
+% m2.InitialStates(i).Fixed = false;
+% end
+% 
+% [y,fit,x0] = compare( zval_merged , nlmodel , compopt );
 
 %% Save NLGREY model
 save( [filesep , 'nlModels' , filesep , 'laser_polyMocel.mat'] , 'nlmodel' );
