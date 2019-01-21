@@ -23,7 +23,8 @@ addpath('/home/bruderd/gurobi/gurobi810/linux64/matlab');
 if ~exist('params' ,'var')  % recycle struct from previous run 
     params = struct;
 end
-params.getData = 'manSim2_1val_1sid_sc09_100000pts_1del_Ts02.mat';            % (name of the data file)
+% params.getData = 'manSim2_1val_1sid_sc09_100000pts_1del_Ts02.mat';            % (name of the data file) , for simulated 2d manipulator / double pendulum
+params.getData = 'larm_192val_16sid_sc09_191000pts_1del_Ts1.mat';            % (name of the data file) , for laser flaccy system
 params.basisID = basisID;   % ('fourier' or 'poly' or 'fourier_sparser' or 'thinplate' or 'gaussian')
 
 % parameters for reading in data (these affect how shapshot pairs built from raw data).
@@ -35,7 +36,8 @@ params.numericalDerivs  = false;    % choose whether or not to take numerical de
 params.scale            = 0.9;      % scale down all state to be in range [-scale , scale]
 params.nd               = 1;        % number of delays to include in the snapshot pairs
 
-params.systemName          = ['waves_manSim2_1val_1sid_sc09_100000pts_1del_Ts02_' , basisID , num2str(maxDegree) ];  % name of current system
+% params.systemName          = ['waves_manSim2_1val_1sid_sc09_100000pts_1del_Ts02_' , basisID , num2str(maxDegree) ];  % name of current system , for simulated 2d manipulator / double pendulum
+params.systemName          = ['waves_larm_192val_16sid_sc09_191000pts_1del_Ts1' , basisID , num2str(maxDegree) ];  % name of current system , for laser flaccy system
 params.filterWindow        = floor( [1/params.Ts, 1/params.Ts] );  % if taking numerical derivatives, specifies the moving mean window before and after derivatives taken.
 
 % Koopman Sysid parameters
