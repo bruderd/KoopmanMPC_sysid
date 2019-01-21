@@ -49,7 +49,7 @@ nlmodel = nlgreyest( ztry , m , opt );
 
 %% repeat until all of the validation data is used for training
 numVals = numel(fieldnames(zval));
-for i = 2 : floor( numVals / 10 )   % take them 10 at a time
+for i = 1 : floor( numVals / 10 )   % take them 10 at a time
 
     % the next 10 validation trials
     expID = ['z' , num2str(10*i+1)];
