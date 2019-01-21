@@ -33,12 +33,12 @@ m = idnlgrey( 'vf_poly' , Order , Parameters , InitialStates , Ts , 'Name' , 'la
 %% merge 10 of the validation trials (20s of data to learn from total)
 
 % initialize merged dataset
-ztry = zval.z1;
+ztry = zval.z1(1:19);   % use only first 19 samples
 for i = 2 : 10
    expID = ['z', num2str(i)];
    
    % merge all of the data sets into single multiexperiment object
-   ztry = merge( ztry, zval.(expID) );
+   ztry = merge( ztry, zval.(expID)(1:19) );    % only use first 19 samples
 end
 
 %% learn model
@@ -53,10 +53,10 @@ for i = 1 : floor( numVals / 10 )   % take them 10 at a time
 
     % the next 10 validation trials
     expID = ['z' , num2str(10*i+1)];
-    ztry = zval.(expID);
+    ztry = zval.(expID)(1:19);  % use only first 19 samples
     for j = 2:10
         expID = ['z' , num2str(10*i+j)];
-        ztry = merge( ztry , zval.(expID) );
+        ztry = merge( ztry , zval.(expID)(1:19) );  % only use first 19 samples
     end
     
     % intialize the new model from the old model
