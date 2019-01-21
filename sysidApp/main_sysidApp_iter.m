@@ -60,8 +60,8 @@ for i = 2 : floor( numVals / 10 )   % take them 10 at a time
     end
     
     % intialize the new model from the old model
-    Parameters = nlmodel.Parameters;
-    InitialStates = nlmodel.InitialStates;
+    Parameters = nlmodel.Parameters.Value;
+    InitialStates = nlmodel.InitialStates.Value;
     
     % find new model
     nlmodel = nlgreyest( ztry , nlmodel , opt );
