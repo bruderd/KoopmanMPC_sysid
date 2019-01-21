@@ -23,7 +23,8 @@ cd([ '..' , filesep , 'sysidApp' ]);
 
 %% construct idnlgray object
 Order = [ model.params.ny , model.params.p , 2 * model.params.n ];      % [Ny Nu Nx]
-Parameters = {1e-6 * ones(120,1) , 1e-6 * ones(120,1)};   % initial parameter estimates
+Parameters = {1e-6 * ones(36,1) , 1e-6 * ones(36,1)};   % initial parameter estimates
+% Parameters = {1e-6 * ones(120,1) , 1e-6 * ones(120,1)};   % initial parameter estimates
 % Parameters = {1e-6 * ones(model.params.N,1) , 1e-6 * ones(model.params.N,1)};   % initial parameter estimates
 InitialStates = zeros( 2 * model.params.n , 1 ); % initial states
 Ts = model.params.Ts;

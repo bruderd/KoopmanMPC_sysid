@@ -31,8 +31,8 @@ psi = str2func('lift_waves_192val_larm_sc09_191000pts_1del_Ts1_poly4_3');    % t
 cd(['..' , filesep , 'sysidApp']);
 
 %% limit the number of coefficients needed
-vec1 = [cf1(1:119)' , zeros(1,210) , cf1(120)]; % total must add up to 330
-vec2 = [cf2(1:119)' , zeros(1,210) , cf2(120)]; % total must add up to 330
+vec1 = [cf1(1:35)' , zeros(1,294) , cf1(36)]; % total must add up to 330
+vec2 = [cf2(1:35)' , zeros(1,294) , cf2(36)]; % total must add up to 330
 
 %% define dx
 

@@ -4,29 +4,31 @@
 % App rather than the Koopman sysid method
 
 % load the file of the Koopman model
-model = load('C:\Users\danie\Documents\MATLAB\UM-Matlab\Koopman\ver8-Koopman_MPC\models\waves_192val_larm_sc09_191000pts_1del_Ts1_poly4_3.mat');
+cd([ '..' , filesep , 'models' ]);
+model = load('waves_192val_larm_sc09_191000pts_1del_Ts1_poly4_3.mat');
+cd([ '..' , filesep , 'sysidApp' ]);
 
 %% load data file
-load('C:\Users\danie\Documents\MATLAB\UM-Matlab\Koopman\ver8-Koopman_MPC\dataFiles\larm_192val_16sid_sc09_191000pts_1del_Ts1.mat');
-% data = load('C:\Users\danie\Documents\MATLAB\UM-Matlab\Koopman\ver8-Koopman_MPC\fakeSystems\simData\SMD_100s.mat');
+cd([ '..' , filesep , 'dataFiles' ]);
+load('larm_192val_16sid_sc09_191000pts_1del_Ts1.mat');
+cd([ '..' , filesep , 'sysidApp' ]);
 
 %% construct iddata object
-cd('..');
-[zsysid_merged, zval_merged, zsysid, zval] = prep_iddata(data);
-cd('sysidApp');
+[zsysid_merged, zval_merged, zsysid, zval] = prep_iddata_allscaled(data);
+% cd('..');
+% [zsysid_merged, zval_merged, zsysid, zval] = prep_iddata(data);
+% cd('sysidApp');
 % zsysid_merged = iddata( data.x , data.u , 0.01 );
 % zsysid_merged = iddata( data.alltrials.x , data.alltrials.u , model.params.Ts );
 
 
 %% construct idnlgray object
 Order = [ model.params.ny , model.params.p , 2 * model.params.n ];      % [Ny Nu Nx]
-Parameters = {1e-6 * ones(model.params.N,1) , 1e-6 * ones(model.params.N,1)};   % initial parameter estimates
-% Parameters = [1 1 1];
+Parameters = {1e-6 * ones(36,1) , 1e-6 * ones(36,1)};   % initial parameter estimates
+% Parameters = {1e-6 * ones(model.params.N,1) , 1e-6 * ones(model.params.N,1)};   % initial parameter estimates
 InitialStates = zeros( 2 * model.params.n , 1 ); % initial states
 Ts = model.params.Ts;
-% Ts = 0.01;
 m = idnlgrey( 'vf_poly' , Order , Parameters , InitialStates , Ts , 'Name' , 'laser_polyModel');
-% m = idnlgrey( 'vf_SMD' , Order , Parameters , [] , Ts , 'Name' , 'SMD');
 
 %% merge 10 of the validation trials (20s of data to learn from total)
 
@@ -76,3 +78,6 @@ m2.InitialStates(i).Fixed = false;
 end
 
 [y,fit,x0] = compare( zval_merged , nlmodel , compopt );
+
+%% Save NLGREY model
+save( [filesep , 'nlModels' , filesep , 'laser_polyMocel.mat'] , 'nlmodel' );
