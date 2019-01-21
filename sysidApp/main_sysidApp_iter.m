@@ -49,7 +49,7 @@ nlmodel = nlgreyest( ztry , m , opt );
 
 %% repeat until all of the validation data is used for training
 numVals = numel(fieldnames(zval));
-for i = 2 : floor( numvals / 10 )   % take them 10 at a time
+for i = 2 : floor( numVals / 10 )   % take them 10 at a time
 
     % the next 10 validation trials
     expID = ['z' , num2str(10*i+1)];
@@ -80,4 +80,4 @@ end
 % [y,fit,x0] = compare( zval_merged , nlmodel , compopt );
 
 %% Save NLGREY model
-save( [filesep , 'nlModels' , filesep , 'laser_polyMocel.mat'] , 'nlmodel' );
+save( ['nlModels' , filesep , 'laserModel_poly2_allvals.mat'] , 'nlmodel' );
