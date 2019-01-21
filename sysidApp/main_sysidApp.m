@@ -58,4 +58,4 @@ end
 [y,fit,x0] = compare( zval_merged , nlmodel , compopt );
 
 %% Save NLGREY model
-save( [filesep , 'nlModels' , filesep , 'laser_polyMocel.mat'] , 'nlmodel' );
+save( ['nlModels' , filesep , 'laserModel_poly2_allsyids.mat'] , 'nlmodel' );
