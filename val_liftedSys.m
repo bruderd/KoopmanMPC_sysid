@@ -80,14 +80,23 @@ for j = 1 : params.numVals
     
     %% quantify the error between real behavior and simulated behavior
     
-    % quantify error
+    % quantify L2 error
     terror = treal;
     error.RMSE.(valID) = sqrt( sum( (xreal - xdis).^2 ) / length(terror) );     % error for this trial
     error.RMSE.total = error.RMSE.total + error.RMSE.(valID);   % keep track of total error
     
-    % compute error of the zero solution (if state remains zero whole time). This will be used for normalization purposes 
-    error.zero.(valID) = sqrt( sum( (xreal).^2 ) / length(terror) );
-    error.zero.total = error.zero.total + error.zero.(valID);   % keep track of total
+    % quantify L1 error
+    terror = treal;
+    error.L1.(valID) = sum( abs(xreal - xdis) ) / length(terror);     % error for this trial
+    error.L1.total = error.L1.total + error.L1.(valID);   % keep track of total error
+    
+    % compute L2 error of the zero solution (if state remains zero whole time). This will be used for normalization purposes 
+    error.L2zero.(valID) = sqrt( sum( (xreal).^2 ) / length(terror) );
+    error.L2zero.total = error.L2zero.total + error.L2zero.(valID);   % keep track of total
+    
+    % compute L1 error of the zero solution (if state remains zero whole time). This will be used for normalization purposes 
+    error.L1zero.(valID) = sum( abs(xreal) ) / length(terror);
+    error.L1zero.total = error.L1zero.total + error.L1zero.(valID);   % keep track of total
     
     %% define outputs
 %     error.(valID).terror = terror;
