@@ -26,7 +26,7 @@ if ~exist('params' ,'var')  % recycle struct from previous run
     params = struct;
 end
 % params.getData = 'manSim2_1val_1sid_sc09_100000pts_1del_Ts02.mat';            % (name of the data file) , for simulated 2d manipulator / double pendulum
-params.getData = 'larm_100val_16sid_sc09_191000pts_1del_Ts1.mat';            % (name of the data file) , for laser flaccy system
+params.getData = 'larm_10val100s_16sid_sc09_191000pts_1del_Ts1.mat';            % (name of the data file) , for laser flaccy system
 params.basisID = basisID;   % ('fourier' or 'poly' or 'fourier_sparser' or 'thinplate' or 'gaussian')
 
 % parameters for reading in data (these affect how shapshot pairs built from raw data).
@@ -39,7 +39,7 @@ params.scale            = 0.9;      % scale down all state to be in range [-scal
 params.nd               = 1;        % number of delays to include in the snapshot pairs
 
 % params.systemName          = ['waves_manSim2_1val_1sid_sc09_100000pts_1del_Ts02_' , basisID , num2str(maxDegree) ];  % name of current system , for simulated 2d manipulator / double pendulum
-params.systemName          = ['waves_larm_100val_16sid_sc09_191000pts_1del_Ts1_' , basisID , num2str(maxDegree) ];  % name of current system , for laser flaccy system
+params.systemName          = ['waves_larm_10val100s_16sid_sc09_191000pts_1del_Ts1_' , basisID , num2str(maxDegree) ];  % name of current system , for laser flaccy system
 params.filterWindow        = floor( [1/params.Ts, 1/params.Ts] );  % if taking numerical derivatives, specifies the moving mean window before and after derivatives taken.
 
 % Koopman Sysid parameters
@@ -128,6 +128,7 @@ for i = 1 : length(lassoParams)
 %     end
 end
 
+results.params = params;    % save the params so I can check them later
 
 %% Convert to iddata and compare to validation data
 % if params.compareon
