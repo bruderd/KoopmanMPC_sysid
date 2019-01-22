@@ -9,7 +9,9 @@ params = data.valparams;    % model parameters
 
 error = struct;     % error results comparing real and koopman system
 error.RMSE.total = 0; % initialize total error quantity
-error.zero.total = 0;
+error.L1.total = 0;
+error.L1zero.total = 0;
+error.L2zero.total = 0;
 
 koopsim = struct;   % simulation results for koopman system
 
