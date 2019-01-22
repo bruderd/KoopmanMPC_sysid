@@ -26,20 +26,20 @@ if ~exist('params' ,'var')  % recycle struct from previous run
     params = struct;
 end
 % params.getData = 'manSim2_1val_1sid_sc09_100000pts_1del_Ts02.mat';            % (name of the data file) , for simulated 2d manipulator / double pendulum
-params.getData = 'larm_192val_16sid_sc09_191000pts_1del_Ts1.mat';            % (name of the data file) , for laser flaccy system
+params.getData = 'larm_10val_16sid_sc09_191000pts_1del_Ts1.mat';            % (name of the data file) , for laser flaccy system
 params.basisID = basisID;   % ('fourier' or 'poly' or 'fourier_sparser' or 'thinplate' or 'gaussian')
 
 % parameters for reading in data (these affect how shapshot pairs built from raw data).
-params.numTrials        = 1;        % numer of sysid trials
-params.numVals          = 1;        % number of validation trials
-params.Ts               = 0.02;     % sampling period
-params.K                = 100000;     % numer of snapshotPairs to take
+params.numTrials        = 16;        % numer of sysid trials
+params.numVals          = 10;        % number of validation trials
+params.Ts               = 0.1;     % sampling period
+params.K                = 191000;     % numer of snapshotPairs to take
 params.numericalDerivs  = false;    % choose whether or not to take numerical derivatives of states (boolean)
 params.scale            = 0.9;      % scale down all state to be in range [-scale , scale]
 params.nd               = 1;        % number of delays to include in the snapshot pairs
 
 % params.systemName          = ['waves_manSim2_1val_1sid_sc09_100000pts_1del_Ts02_' , basisID , num2str(maxDegree) ];  % name of current system , for simulated 2d manipulator / double pendulum
-params.systemName          = ['waves_larm_192val_16sid_sc09_191000pts_1del_Ts1_' , basisID , num2str(maxDegree) ];  % name of current system , for laser flaccy system
+params.systemName          = ['waves_larm_10val_16sid_sc09_191000pts_1del_Ts1_' , basisID , num2str(maxDegree) ];  % name of current system , for laser flaccy system
 params.filterWindow        = floor( [1/params.Ts, 1/params.Ts] );  % if taking numerical derivatives, specifies the moving mean window before and after derivatives taken.
 
 % Koopman Sysid parameters

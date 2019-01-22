@@ -18,7 +18,7 @@ function results = compare_lasso( basisID , maxDegree , lassoParams )
 %       error - a struct containing the error info for all of the
 %       validation trials
 
-% addpath('/home/bruderd/gurobi/gurobi810/linux64/matlab');
+addpath('/home/bruderd/gurobi/gurobi810/linux64/matlab');
 
 %% Define system parameters (USER EDIT SECTION)
 
@@ -26,20 +26,20 @@ if ~exist('params' ,'var')  % recycle struct from previous run
     params = struct;
 end
 % params.getData = 'manSim2_1val_1sid_sc09_100000pts_1del_Ts02.mat';            % (name of the data file) , for simulated 2d manipulator / double pendulum
-params.getData = 'larm_192val_16sid_sc09_191000pts_1del_Ts1.mat';            % (name of the data file) , for laser flaccy system
+params.getData = 'larm_100val_16sid_sc09_191000pts_1del_Ts1.mat';            % (name of the data file) , for laser flaccy system
 params.basisID = basisID;   % ('fourier' or 'poly' or 'fourier_sparser' or 'thinplate' or 'gaussian')
 
 % parameters for reading in data (these affect how shapshot pairs built from raw data).
-params.numTrials        = 1;        % numer of sysid trials
-params.numVals          = 1;        % number of validation trials
-params.Ts               = 0.02;     % sampling period
-params.K                = 100000;     % numer of snapshotPairs to take
+params.numTrials        = 16;        % numer of sysid trials
+params.numVals          = 100;        % number of validation trials
+params.Ts               = 0.1;     % sampling period
+params.K                = 191000;     % numer of snapshotPairs to take
 params.numericalDerivs  = false;    % choose whether or not to take numerical derivatives of states (boolean)
 params.scale            = 0.9;      % scale down all state to be in range [-scale , scale]
 params.nd               = 1;        % number of delays to include in the snapshot pairs
 
 % params.systemName          = ['waves_manSim2_1val_1sid_sc09_100000pts_1del_Ts02_' , basisID , num2str(maxDegree) ];  % name of current system , for simulated 2d manipulator / double pendulum
-params.systemName          = ['waves_larm_192val_16sid_sc09_191000pts_1del_Ts1' , basisID , num2str(maxDegree) ];  % name of current system , for laser flaccy system
+params.systemName          = ['waves_larm_100val_16sid_sc09_191000pts_1del_Ts1_' , basisID , num2str(maxDegree) ];  % name of current system , for laser flaccy system
 params.filterWindow        = floor( [1/params.Ts, 1/params.Ts] );  % if taking numerical derivatives, specifies the moving mean window before and after derivatives taken.
 
 % Koopman Sysid parameters
@@ -104,7 +104,6 @@ disp('Done.')
 results = struct;
 results.lassoParams = lassoParams;
 
-
 for i = 1 : length(lassoParams)
     disp(['Learning model number ' , num2str(i) , ' of ' , num2str(length(lassoParams)) , '.' ] );
     
@@ -112,10 +111,12 @@ for i = 1 : length(lassoParams)
     [model , current_error] = learn_koopmanModel( data, some_snapshotPairs , params );   % learn new model
     
     % save relevant parts of the model in output struct
-    results.model(i) = model;
-    results.error(i) = current_error;
-    results.density.A(i) = nnz(model.Asim) / numel(model.Asim);
-    results.density.MA(i) = nnz(model.A) / numel(model.A);
+    if length(lassoParams) <= 100   % only save the full model each time if problem is small enough
+        results.model(i) = model;
+        results.error(i) = current_error;
+    end
+    results.density.A(i) = nnz( abs( model.Asim ) > 1e-6 ) / numel(model.Asim);  % element considered 0 if magnitude less than or equal to 1e-6
+    results.density.MA(i) = nnz( abs( model.A ) > 1e-6 ) / numel(model.A);
     results.totnerror(i) = current_error.RMSE.total / current_error.zero.total;
     
 %     % keep this model only if the error is lower than the last one
@@ -134,17 +135,8 @@ end
 %     disp('Done.')
 % end
 
-%% Save the model file
-
-% save the dynamics
-[unique_fname] = save_model(results);
-unique_name = unique_fname( 8 : end - 4 );  % remove 'models/' from the beginning and the file extension '.mat'
+%% Save the results file
 
 % save datafile without overwriting previous files with same name
-systemName =
-[unique_fname, change_detect] = auto_rename(['lasso', filesep, systemName, '.mat'], '_0');
-save(unique_fname, '-struct', 'system');
-
-% save the lifting function
-liftFunDest = ['liftingFunctions' , filesep , 'lift_' , unique_name, '.m'];
-copyfile( [params.liftHandle , '.m'] , liftFunDest );
+[unique_fname, change_detect] = auto_rename(['lasso', filesep, params.systemName, '.mat'], '_0');
+save(unique_fname, '-struct', 'results');
