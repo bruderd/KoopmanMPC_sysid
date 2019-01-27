@@ -121,6 +121,7 @@ for i = 1 : length(lassoParams)
     results.density.MA(i) = nnz( abs( model.A ) > 1e-6 ) / numel(model.A);
     results.totnerror.L2(i,:) = current_error.RMSE.total ./ current_error.L2zero.total; % note these are 1x2
     results.totnerror.L1(i,:) = current_error.L1.total ./ current_error.L1zero.total;
+    results.totnerror.dist(i,:) = current_error.dist.total ./ current_error.distzero.total; % note this is 1x1
     
 %     % keep this model only if the error is lower than the last one
 %     if norm( current_error.RMSE.total ) < norm( error.RMSE.total )  % want average of x and y error to be better
